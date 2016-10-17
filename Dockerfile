@@ -16,12 +16,12 @@ ENV TF_CUDNN_VERSION=5
 ENV CUDNN_INSTALL_PATH="/usr/local/cuda"
 ENV TF_CUDNN_VERSION=5
 ENV TF_CUDA_COMPUTE_CAPABILITIES="3.0,3.5,5.2,6.0"
-
+ENV PYTHONPATH=/usr/lib/python3/
 WORKDIR tensorflow
 RUN echo $TF_NEED_GCP
 RUN echo $TF_NEED_CUDA
 ENV PATH=$PATH:/usr/local/bin
-RUN echo -ne "\n" |  ./configure
+RUN ./configure
 RUN bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
 RUN bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 RUN pip install /tmp/tensorflow_pkg/*.whl
